@@ -20,13 +20,18 @@ unknown_token = "UNKNOWN_TOKEN"
 
 class report:
     def __init__(self):
-        raw_data = list(DictReader(open("rnn/data/example.csv", 'r')))
-        self.reports = ["%s %s %s" % (START_SENT, x, END_SENT) for x in raw_data]
+        raw_data = DictReader(open("rnn/data/reddit-comments-2015-08.csv", 'r'))
+        data = []
+        #BUILD/EXTEND SENTENCES WITHOUT START / END TOKEN
+        for x in raw_data:
+            data.extend(nltk.sent_tokenize(x['body']))
+        #PUT START TOKEN AND END TOKEN ON EACH SENTENCE
+        self.token_sent = ["%s %s %s" % (START_SENT, x, END_SENT) for x in data]
 
 
         #Tokenize sentences into words
-        self.token_sentences = [nltk.word_tokenize(sent) for sent in self.reports]
-        word_frequency = nltk.FreqDist(itertools.chain(*self.token_sentences))
+        self.token_word = [nltk.word_tokenize(sent) for sent in self.token_sent]
+        word_frequency = nltk.FreqDist(itertools.chain(*self.token_word))
         #print("Found %d unique words tokens." % len(word_frequency.items()))
 
         #Get most common words and build an index to word / word to index vectors
@@ -34,10 +39,25 @@ class report:
         vocab = word_frequency.most_common(vocabulary_size-1)
         index_to_word = [x[0] for x in vocab]
         index_to_word.append(unknown_token)
+
+        #DICT = [(WORD, COUNT) FOR ENUMERATES RETURN OF (COUNT, WORD)]
         word_to_index = dict([(w,i) for i,w in enumerate(index_to_word)])
+
+        for i, sent in enumerate(self.token_sent):
+            self.token_sent[i] = [w if w in word_to_index else unknown_token for w in sent]
+
+        self.X_train = np.asarray([[word_to_index[w] for w in sent[:-1]] for sent in self.token_sent])
+        self.y_train = np.asarray([[word_to_index[w] for w in sent[1:]] for sent in self.token_sent])
+
+        ex = ["SENT_START What are n't you understanding about this ? ! SENT_END", "SENT_START Period . SENT_END"]
+        print(ex[:-1])
+
+        sec = np.asarray([[word_to_index[w] for w in exx.split()[:-1]] for exx in ex])
+        print(sec)
 
 
 
 
 if __name__ == "__main__":
     print("Working Fine")
+    egg = report()
