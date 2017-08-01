@@ -49,11 +49,18 @@ class report:
         self.X_train = np.asarray([[word_to_index[w] for w in sent[:-1]] for sent in self.token_sent])
         self.y_train = np.asarray([[word_to_index[w] for w in sent[1:]] for sent in self.token_sent])
 
-        ex = ["SENT_START What are n't you understanding about this ? ! SENT_END", "SENT_START Period . SENT_END"]
-        print(ex[:-1])
 
-        sec = np.asarray([[word_to_index[w] for w in exx.split()[:-1]] for exx in ex])
-        print(sec)
+
+class RNNNumpy:
+    def __init__(self, word_dim, hidden_dim=100, bptt_truncate=4):
+        #Assign instance variables
+        self.word_dim = word_dim
+        self.hidden_dim = hidden_dem
+        self.bptt_truncate = bptt_truncate
+
+        #randomly initialzie the paramteres...
+
+        
 
 
 
