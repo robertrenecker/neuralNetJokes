@@ -11,7 +11,6 @@ from csv import DictReader
 import re, itertools, sys
 from sklearn.externals import joblib
 import numpy as np
-example_text = "Hello Mr. Smith, how are you today? I am feeling quite well, cheers! What appeared last night?"
 START_SENT = "SENT_START"
 END_SENT = "SENT_END"
 vocabulary_size = 8000
@@ -60,7 +59,7 @@ class RNNNumpy:
 
         #randomly initialzie the paramteres...
 
-        
+
 
 
 
