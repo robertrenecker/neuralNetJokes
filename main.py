@@ -205,11 +205,11 @@ if __name__ == "__main__":
     model = RNNNumpy(vocabulary_size)
     print("Model Working")
 
-    losses = model.train_with_sgd(egg.X_train[:11000], egg.y_train[:11000], nepoch=40, evaluate_loss_after=1)
+    losses = model.train_with_sgd(egg.X_train[:5000], egg.y_train[:5000], nepoch=40, evaluate_loss_after=1)
     joblib.dump(model, 'trained_model_update.pkl')
     """m = joblib.load('trained_model_update.pkl')"""
 
-
+    """
     for i in range(num_sentences):
     sent = []
     # We want long sentences, not sentences with one or two words
@@ -217,7 +217,7 @@ if __name__ == "__main__":
         sent = generate_sentence(model)
     print " ".join(sent)
 
-
+    """
 
     """
     st = ""
